@@ -9,7 +9,7 @@ app.get('/users', (req, res) => {
   res.send([{ id: 1, name: 'Tulio' }])
 })
 
-app.listen(3000, (err) => {
+app.listen(80, (err) => {
   if (err) {
     console.log('Server is not running.')
   } else {
