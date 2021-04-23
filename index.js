@@ -16,7 +16,4 @@ const server = https.createServer(options, app)
 server.listen(443, () => {
   console.log('server running...')
   console.log('creating webhook for pix')
-  createWebhook().then((output) => {
-    console.log('webhook created.', output)
-  })
 })
