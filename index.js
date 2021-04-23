@@ -1,18 +1,22 @@
-const express = require('express')
-const app = express()
+const https = require('https')
+const fs = require('fs')
+const app = require('./app')
 
-app.get('/', (req, res) => {
-  res.send('Server is running...')
-})
+const options = {
+  // tls
+  key: fs.readFileSync(
+    '/etc/letsencrypt/live/api-test.devpleno.com/privkey.pem'
+  ),
+  cert: fs.readFileSync(
+    '/etc/letsencrypt/live/api-test.devpleno.com/fullchain.pem'
+  ),
+}
 
-app.get('/users', (req, res) => {
-  res.send([{ id: 1, name: 'Tulio' }])
-})
-
-app.listen(80, (err) => {
-  if (err) {
-    console.log('Server is not running.')
-  } else {
-    console.log('server is running.')
-  }
+const server = https.createServer(options, app)
+server.listen(443, () => {
+  console.log('server running...')
+  console.log('creating webhook for pix')
+  createWebhook().then((output) => {
+    console.log('webhook created.', output)
+  })
 })
